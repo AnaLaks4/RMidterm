@@ -1,0 +1,143 @@
+---
+title             : "The title"
+shorttitle        : "Title"
+
+author: 
+  - name          : "First Author"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "my@email.com"
+  - name          : "Ernst-August Doelle"
+    affiliation   : "1,2"
+
+affiliation:
+  - id            : "1"
+    institution   : "Wilhelm-Wundt-University"
+  - id            : "2"
+    institution   : "Konstanz Business School"
+
+authornote: |
+  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
+
+  Enter author note here.
+
+abstract: |
+  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
+  
+  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
+  
+  One sentence clearly stating the **general problem** being addressed by  this particular study.
+  
+  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
+  
+  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
+  
+  One or two sentences to put the results into a more **general context**.
+  
+  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
+  
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+
+```{r setup, include = FALSE}
+library("papaja")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+
+
+# Methods
+Parents learned to sing one of the two songs. They sang that song to their infants on a regular basis. After 1 to 2 weeks of song exposure, the infants returned to the lab for a selective-attention test. Finally, the parents were recorded as they sang to their infants so that expert raters could judge their pitch accuracy. 
+
+## Participants
+There were 38 full-term infants and their parents from the greater Boston area. 
+
+## Procedure
+For 1 to 2 weeks, 5-month-old infants listened at home to one of two novel songs with identical lyrics and rhythms, but different melodies; the song was sung by a parent, emanated from a toy, or was sung live by a friendly but unfamiliar adult first in person and subsequently via interactive video. We then tested the infants’ selective attention to two novel individuals after one sang the familiar song and the other sang the unfamiliar song.
+
+## Data analysis
+We used `r cite_r("bib.bib")` for all our analyses.
+
+
+# Results
+
+```{r, comment="Experiment 1: Baseline"}
+library(data.table)
+all_data <- fread("DataMehr.csv")
+keep<- c() 
+#all_data<- data.frame(keep)
+library(dplyr)
+
+baseline<- all_data %>%
+  filter(Baseline_Proportion_Gaze_to_Singer, exp1==1)
+
+baseline<-baseline$Baseline_Proportion_Gaze_to_Singer
+
+mean_exp1<- mean(baseline)  
+SD_exp1<- sd(baseline)
+
+exp1T<-t.test(baseline, mu=.5)
+
+
+```
+In the baseline condition, there was no difference in gazes to singer. The mean looking time was `mean_exp1 * 100`% which was not significantly different from the expected 50% according to the one sample T-Test `exp1T$statistic`. `r apa_t.test$exp1T$`
+
+
+```{r, comment = "Experiment 2: Test Phase"}
+testing<- all_data %>%
+  filter(Test_Proportion_Gaze_to_Singer, exp1==1)
+test<-testing$Test_Proportion_Gaze_to_Singer
+
+mean_test<- mean(test)
+SD_test<- sd(test)
+
+expTest<- t.test(test, mu=.5)
+
+```
+
+
+```{r, comment = "Paired Samples T-Test"}
+t.test(baseline,test,paired = TRUE, var.equal = TRUE)
+```
+
+
+# Discussion
+
+
+\newpage
+
+# References
+```{r create_r-references}
+r_refs(file = "bib.bib")
+```
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id = "refs"></div>
+\endgroup
