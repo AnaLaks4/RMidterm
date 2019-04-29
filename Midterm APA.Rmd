@@ -1,54 +1,37 @@
 ---
-title             : "The title"
-shorttitle        : "Title"
+title             : "Reproduced Report: For 5-Month-Old Infants, Melodies Are Social"
+shorttitle        : "Reproduced: Melodies are Social for Infants"
 
 author: 
-  - name          : "First Author"
+  - name          : "Ana Lakshin"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
-    address       : "Postal address"
-    email         : "my@email.com"
-  - name          : "Ernst-August Doelle"
-    affiliation   : "1,2"
+    address       : "2900 Bedford Ave, Brooklyn, NY 11210"
+    email         : "Ana.Lakshin09@bcmail.brooklyn.cuny.edu"
 
 affiliation:
   - id            : "1"
-    institution   : "Wilhelm-Wundt-University"
-  - id            : "2"
-    institution   : "Konstanz Business School"
+    institution   : "Brooklyn College"
 
 authornote: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-
-  Enter author note here.
+  Psychology Department of Brooklyn College.
+  Psych 7709
 
 abstract: |
-  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
-  
-  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
-  
-  One sentence clearly stating the **general problem** being addressed by  this particular study.
-  
-  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
-  
-  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
-  
-  One or two sentences to put the results into a more **general context**.
-  
-  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
+  Using Mehr et. al (2016)'s original data the following will be a reproduction of the first experiment's analyses. The study used 5 month old infants, two songs differing in familiarity and two unfamiliar singers to determine if familiarity with a song will result in longer looking times at the unfamiliar singer. It was found that infants gazed at the unfamiliar person singing a familiar song longer than at the new person singing an unfamiliar song.
   
   <!-- https://tinyurl.com/ybremelq -->
   
-keywords          : "keywords"
+keywords          : "music, social cognition, reproduced report, memory"
 wordcount         : "X"
 
-bibliography      : ["r-references.bib"]
+bibliography      : ["biblio.bib"]
 
-floatsintext      : no
+floatsintext      : yes
 figurelist        : no
 tablelist         : no
 footnotelist      : no
-linenumbers       : yes
+linenumbers       : no
 mask              : no
 draft             : no
 
@@ -68,26 +51,22 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
-
-
 # Methods
-Parents learned to sing one of the two songs. They sang that song to their infants on a regular basis. After 1 to 2 weeks of song exposure, the infants returned to the lab for a selective-attention test. Finally, the parents were recorded as they sang to their infants so that expert raters could judge their pitch accuracy. 
 
 ## Participants
 There were 38 full-term infants and their parents from the greater Boston area. 
-
 ## Procedure
-For 1 to 2 weeks, 5-month-old infants listened at home to one of two novel songs with identical lyrics and rhythms, but different melodies; the song was sung by a parent, emanated from a toy, or was sung live by a friendly but unfamiliar adult first in person and subsequently via interactive video. We then tested the infants’ selective attention to two novel individuals after one sang the familiar song and the other sang the unfamiliar song.
+Parents learned to sing one of two new songs. They sang one of the songs to their infants on a regular basis. After 1 to 2 weeks of song exposure, the infants returned to the lab for a selective-attention test. During the baseline trial of the test, two unfamiliar individuals silently smiled at the infant for a brief period of time after which each individual sang one of the two songs. After one sang the familiar and the other sang the unfamiliar song, the two would again silently smile and gaze at the infant. 
 
 ## Data analysis
-We used `r cite_r("bib.bib")` for all our analyses.
+We used `r cite_r("biblio.bib")` for all our analyses.
 
 
 # Results
 
-```{r, comment="Experiment 1: Baseline"}
+```{r, Baseline}
 library(data.table)
-all_data <- fread("DataMehr.csv")
+all_data <- read.csv(file = "MehrData.csv")
 keep<- c() 
 #all_data<- data.frame(keep)
 library(dplyr)
@@ -104,10 +83,34 @@ exp1T<-t.test(baseline, mu=.5)
 
 
 ```
-In the baseline condition, there was no difference in gazes to singer. The mean looking time was `mean_exp1 * 100`% which was not significantly different from the expected 50% according to the one sample T-Test `exp1T$statistic`. `r apa_t.test$exp1T$`
+In the baseline condition, there was no difference in gazes to either singer. The mean looking time of the familiar song's singer was `r mean_exp1 * 100`% (SD = `r SD_exp1`) which was not significantly different from chance according to the one sample T-Test `r apa_print(exp1T)$statistic`.
+
+```{r,Familiarization Stage}
+familiarization<- all_data %>%
+  filter(Familiarization_Gaze_to_Familiar, exp1 == 1) %>%
+  filter(Familiarization_Gaze_to_Unfamiliar, exp1 == 1)%>%
+  mutate(mean_fam = Familiarization_Gaze_to_Familiar/1000,
+         mean_unfam = Familiarization_Gaze_to_Unfamiliar/1000)
+
+fam_to_fam<- familiarization$Familiarization_Gaze_to_Familiar
+fam_to_unfam <- familiarization$Familiarization_Gaze_to_Unfamiliar
+
+x<- c(rep(1000,31))
+fam_to_fam<- fam_to_fam/x
+fam_to_unfam<- fam_to_unfam/x
+
+M_ftf<- mean(fam_to_fam)
+SD_ftf<- sd(fam_to_fam)
+
+M_ftuf<- mean(fam_to_unfam)
+SD_ftuf<- sd(fam_to_unfam)
 
 
-```{r, comment = "Experiment 2: Test Phase"}
+```
+The familiarization stage was unsuccessfully replicated. Original results claim the duration of gazing at the singer of the familiar song had a mean of 15.6 s with a standard deviation of 5.07. Reproduced mean was `r M_ftf` with standard deviation of `r SD_ftf`. For duration of gazing at singers of the unfamiliar song, the original study reported a mean of 15.3 s and standard deviation 5.10. Reproduced mean was `r M_ftuf` with standard deviation of `r SD_ftuf`. 
+
+
+```{r, Test Phase}
 testing<- all_data %>%
   filter(Test_Proportion_Gaze_to_Singer, exp1==1)
 test<-testing$Test_Proportion_Gaze_to_Singer
@@ -118,21 +121,90 @@ SD_test<- sd(test)
 expTest<- t.test(test, mu=.5)
 
 ```
-
+During test phase, the infants looked at the silently smiling singer of the familiar song significantly more than chance (M= `r mean_test`, SD = `r SD_test`) `r apa_print(expTest)$statistic`.
 
 ```{r, comment = "Paired Samples T-Test"}
-t.test(baseline,test,paired = TRUE, var.equal = TRUE)
+difference<- t.test(baseline,test,paired = TRUE, var.equal = TRUE)
+
+```
+Also, during test phase the proportion of time during which the infants gazed at the singer of the familiar song was greater than the duration during baseline (`r apa_print(difference)$statistic`)`.
+
+```{r}
+library(ggplot2)
+library(ggsignif)
+Phase <- rep(c("Baseline","Test"), each = 32)
+Proportions <- c(baseline,test)
+graph1 <- data.frame(Phase,Proportions)
+ggplot(graph1, aes(x=Phase, y=Proportions))+
+  geom_hline(yintercept = .5, linetype = "dashed")+
+  geom_boxplot(fill = "blue", width=.3)+
+  theme_classic(base_size = 12)+
+  geom_signif(comparisons = list(c("Baseline","Test")),
+              map_signif_level = TRUE, textsize = 6)+
+  coord_cartesian(ylim = c(0,1))+
+  scale_y_continuous(breaks=c(0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1.0))+
+  scale_x_discrete(labels= c("Before Singing (Baseline)","After Singing (Test)"),)
+  
+
+
 ```
 
+```{r}
+library(ggplot2)
+library(ggsignif)
+Phase <- rep(c("Baseline","Test"), each = 32)
+Proportions <- c(baseline,test)
+graph1 <- data.frame(Phase,Proportions)
+ggplot(graph1, aes(x=Phase, y=Proportions))+
+  geom_hline(yintercept = .5, linetype = "dashed")+
+  geom_boxplot(fill = "blue", width=.3)+
+  theme_classic(base_size = 12)+
+  stat_signif(test = "t.test")+
+  geom_signif(y_position = c(1,2), xmin = c(1,2), xmax = c(2.1,2),
+              annotations = c("*","NS"))+
+  geom_signif(comparisons = list(c("Baseline","Test")))+
+  coord_cartesian(ylim = c(0,1))+
+  scale_y_continuous(breaks=c(0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1.0))+
+  scale_x_discrete(labels= c("Before Singing (Baseline)","After Singing (Test)"),)
+  
+  
 
+```
 # Discussion
+Re-analysis was successful for baseline and test phase. It was not successful for familiarization phase and for display of significance on graph. 
+Also, something is wrong with the bibliography file 
+
+## Simulation-Based Power Analysis
+```{r}
+sim_power <- function(x){
+  A <- rnorm(n=32,mean=0, sd=1)
+  B <- rnorm(n=32,mean=(0+x), sd=1)
+  return(t.test(A,B,paired = TRUE, var.equal=TRUE)$p.value)
+}
+
+effect_sizes <- seq(.1,2,.1)
+
+power <- sapply(effect_sizes, 
+          FUN = function(x) {
+            sims <- replicate(10000,sim_power(x))
+            sim_power <- length(sims[sims<.05])/length(sims)
+            return(sim_power)})
+
+plot_df <- data.frame(effect_sizes,power)
+
+ggplot(plot_df, aes(x=effect_sizes,
+                    y=power))+
+  geom_point()+
+  geom_line()
+
+```
 
 
 \newpage
 
 # References
 ```{r create_r-references}
-r_refs(file = "bib.bib")
+r_refs(file = "biblio.bib")
 ```
 
 \begingroup
