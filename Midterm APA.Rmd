@@ -18,14 +18,14 @@ authornote: |
   Psych 7709
 
 abstract: |
-  Using Mehr et. al (2016)'s original data the following will be a reproduction of the first experiment's analyses. The study used 5 month old infants, two songs differing in familiarity and two unfamiliar singers to determine if familiarity with a song will result in longer looking times at the unfamiliar singer. It was found that infants gazed at the unfamiliar person singing a familiar song longer than at the new person singing an unfamiliar song.
+  Using @Mehr_Song_Spelke_2016 original data the following will be a reproduction of the first experiment's analyses. The study used 5 month old infants, two songs differing in familiarity and two unfamiliar singers to determine if familiarity with a song will result in longer looking times at the unfamiliar singer. It was found that infants gazed at the unfamiliar person singing a familiar song longer than at the new person singing an unfamiliar song.
   
   <!-- https://tinyurl.com/ybremelq -->
   
 keywords          : "music, social cognition, reproduced report, memory"
 wordcount         : "X"
 
-bibliography      : ["biblio.bib"]
+bibliography      : biblio.bib
 
 floatsintext      : yes
 figurelist        : no
@@ -50,6 +50,9 @@ library("papaja")
 set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
+
+
+
 
 # Methods
 
@@ -145,8 +148,6 @@ ggplot(graph1, aes(x=Phase, y=Proportions))+
   scale_y_continuous(breaks=c(0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1.0))+
   scale_x_discrete(labels= c("Before Singing (Baseline)","After Singing (Test)"),)
   
-
-
 ```
 
 ```{r}
@@ -172,7 +173,6 @@ ggplot(graph1, aes(x=Phase, y=Proportions))+
 ```
 # Discussion
 Re-analysis was successful for baseline and test phase. It was not successful for familiarization phase and for display of significance on graph. 
-Also, something is wrong with the bibliography file 
 
 ## Simulation-Based Power Analysis
 ```{r}
